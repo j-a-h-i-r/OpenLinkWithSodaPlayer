@@ -1,0 +1,33 @@
+{
+  "description": "Open links with soda player",
+  "manifest_version": 2,
+  "name": "SodaPlayer",
+  "version": "0.1",
+  "icons": {
+    "64": "icons/soda-64.png"
+  },
+  
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "contextMenus",
+    "<all_urls>"
+  ],
+
+  "browser_action": {
+    "default_icon": "icons/soda-64.png",
+    "default_title": "Next Page"
+  },
+  
+  "background": {
+    "scripts": ["open.js"]
+  },
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Space"
+      }
+    }
+  }
+}
