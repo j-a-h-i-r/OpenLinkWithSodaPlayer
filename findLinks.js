@@ -1,4 +1,6 @@
-// a content script for finding next page link from reddit
+const DEBUG = false;
+
+// a content script for finding acestream and magnet links from a webpage
 
 // function definitions
 // Acestream links
@@ -8,7 +10,6 @@ var acestream_from_text = function() {
 	var aceLinks = allText.match(acePattern) || [];
 	//console.log(aceLinks);
 	return aceLinks;
-	//console.log(aceLinks);
 }
 var acestream_from_anchor = function( ) {
 	var anchors = document.getElementsByTagName("a");
@@ -29,7 +30,6 @@ var acestream = function( ) {
 	var uniqueLinks = new Set(textLinks.concat(anchorLinks));
 	var links = Array.from(uniqueLinks);
 	return links;
-	//console.log(links);
 };
 
 // Magnet links
@@ -86,9 +86,8 @@ var getLinks = function() {
 
 */
 var messageHandler = function(message, sender, sendResponse) {
-	console.log(message.message);
+	logError(message.message);
 	var links = getLinks();
-	console.log("HI", links);
 	sendResponse({
 		"links": links
 	});
@@ -97,3 +96,18 @@ var messageHandler = function(message, sender, sendResponse) {
 
 // attach handler to message onReceive event
 browser.runtime.onMessage.addListener(messageHandler);
+
+
+// Utility Function to display error
+function logError(err) {
+    // function to handle error during execution
+    // firefox doesn't allow (or atleast discourages) console logging
+    // in addons. So this is not really used in production
+    if (DEBUG === true) {
+        var stack = new Error().stack,
+            caller = stack.split('\n')[1].split('@')[0];
+
+        console.log(`[${caller}]`);
+        console.log(`LOG=> ${err}`);
+    }
+}

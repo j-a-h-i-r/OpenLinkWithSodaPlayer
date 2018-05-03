@@ -1,3 +1,5 @@
+const DEBUG = false;
+
 function getLinkTitle(linkUrl) {
     if (linkUrl.startsWith("acestream://")) {
         return linkUrl;
@@ -5,10 +7,10 @@ function getLinkTitle(linkUrl) {
     else if (linkUrl.startsWith("magnet:?")) {
         var titleRegex = /&dn=([^&|\b]*)/;
         var titleArray = titleRegex.exec(linkUrl);
-        console.log(titleArray);
+        logError(titleArray);
         if (titleArray.length == 2) {
             var title = decodeURIComponent(titleArray[1]);
-            console.log(title);
+            logError(title);
             return title;
         }
         else {
@@ -36,7 +38,7 @@ var displayLinks = function(links) {
 }
 
 var handleLinks = function(message, sender, sendResponse) {
-    console.log(message.target);
+    logError(message.target);
     if (message.target === "popup") {
         var links = message.message.links;
         displayLinks(links);
@@ -44,11 +46,9 @@ var handleLinks = function(message, sender, sendResponse) {
 }
 
 
-function onError(error) {
-    console.error(`Error: ${error}`);
-}
+// Utitlity function for message Passing
 function onSucces(param) {
-    console.log("Sent Message to Background Script");
+    logError("Sent Message to Background Script");
 }
  
 var sending = function sendMessageToTabs( ) {
@@ -56,9 +56,23 @@ var sending = function sendMessageToTabs( ) {
     browser.runtime.sendMessage({
         "target": "background",
         "message": "getlinks"
-    }).then(onSucces, onError);
+    }).then(onSucces, logError);
 }
 sending();
 
 
 browser.runtime.onMessage.addListener(handleLinks);
+
+// Utility Function to display error
+function logError(err) {
+    // function to handle error during execution
+    // firefox doesn't allow (or atleast discourages) console logging
+    // in addons. So this is not really used in production
+    if (DEBUG === true) {
+        var stack = new Error().stack,
+            caller = stack.split('\n')[1].split('@')[0];
+
+        console.log(`[${caller}]`);
+        console.log(`LOG=> ${err}`);
+    }
+}

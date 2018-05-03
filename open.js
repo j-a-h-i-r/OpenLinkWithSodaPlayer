@@ -1,4 +1,4 @@
-var DEBUG = true;
+const DEBUG = false;
 
 browser.contextMenus.create({
     id: "open-link",
@@ -8,20 +8,18 @@ browser.contextMenus.create({
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "open-link") {
-        const link = info.linkUrl || info.selectionText;
+        const link = info.selectionText || info.linkUrl;
         const uri = "sodaplayer://?url=" + link;
-        //location.href = uri;
-        console.log(uri);
+        location.href = uri;
+        logError(uri);
     }
 });
 
 
-function onError(error) {
-    console.error(`Error: ${error}`);
-}
+// Utility Functions for message communication
 function onSucces(param) {
-    console.log("Sent Message to Content Script");
-    console.log(param);
+    logError("Sent Message to Content Script");
+    logError(param);
 
     // got links from content script
     // send them to popup
@@ -33,17 +31,16 @@ function onSucces(param) {
 
 var sendMessageToContentScript = function(tabs) {
     //console.log("tabs", tabs);
-    console.log("Sending message to content script");
+    logError("Sending message to content script");
 
     browser.tabs.sendMessage(tabs[0].id, {
         "message": "givelink"
-    }).then(onSucces, onError);
+    }).then(onSucces, logError);
 }
-
 
 var handleMessage = function(message, sender, sendResponse) {
     var msg = message.message;
-    console.log("message:", msg);
+    logError("message:", msg);
     if (message.target == "background") {
         // get links from content script
         //console.log("Insctruction: get links");
@@ -57,7 +54,7 @@ browser.runtime.onMessage.addListener(handleMessage);
 
 
 
-
+// Utility Function to display error
 function logError(err) {
     // function to handle error during execution
     // firefox doesn't allow (or atleast discourages) console logging

@@ -1,8 +1,8 @@
 {
-  "description": "Open links with soda player",
+  "description": "Play magnet link or acestream link with Sodaplayer directly from Firefox",
   "manifest_version": 2,
-  "name": "SodaPlayer",
-  "version": "0.2.1",
+  "name": "OpenWithSodaPlayer",
+  "version": "0.1",
   "icons": {
     "64": "icons/soda-64.png"
   },
@@ -16,7 +16,7 @@
 
   "browser_action": {
     "default_icon": "icons/soda-64.png",
-    "default_title": "Next Page",
+    "default_title": "View All Playable Links",
     "default_popup": "popup.html",
     "browser_style": true
   },
