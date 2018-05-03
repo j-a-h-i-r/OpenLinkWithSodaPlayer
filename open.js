@@ -2,7 +2,7 @@ var DEBUG = true;
 
 browser.contextMenus.create({
     id: "open-link",
-    title: "Open Link with Sodaplayer",
+    title: "Play Link with Sodaplayer",
     contexts: ["link", "selection"]
 });
 

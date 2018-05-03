@@ -26,9 +26,9 @@ var displayLinks = function(links) {
             var fullLink = links[linkType][link];
             var linkTitle = getLinkTitle(fullLink);
             var node = document.createElement("a");
-            var textNode = document.createTextNode(linkTitle.substring(0, 30));
+            var textNode = document.createTextNode(linkTitle.substring(0, 100));
             node.appendChild(textNode);
-            node.href = fullLink;
+            node.href = "sodaplayer://?url=" + fullLink;
             node.className = "link";
             divElem.appendChild(node);
         }

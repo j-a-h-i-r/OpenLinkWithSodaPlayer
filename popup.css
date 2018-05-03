@@ -1,8 +1,22 @@
-.toplevel {
+.header {
     background-color: bisque;
     margin: 2px;
+    padding: 2px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
 }
 .link {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
     margin: 1px;
     display: block;
+    max-width: 300px;
+    margin: 2px;
+    padding: 2px;
+    text-decoration: none;
+    background-color: cadetblue;
+    border-radius: 2px;
+}
+.link:hover {
+    background-color: chocolate; 
 }
