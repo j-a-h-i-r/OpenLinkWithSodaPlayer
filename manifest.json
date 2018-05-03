@@ -2,7 +2,7 @@
   "description": "Open links with soda player",
   "manifest_version": 2,
   "name": "SodaPlayer",
-  "version": "0.1",
+  "version": "0.2.1",
   "icons": {
     "64": "icons/soda-64.png"
   },
@@ -16,12 +16,21 @@
 
   "browser_action": {
     "default_icon": "icons/soda-64.png",
-    "default_title": "Next Page"
+    "default_title": "Next Page",
+    "default_popup": "popup.html",
+    "browser_style": true
   },
   
   "background": {
     "scripts": ["open.js"]
   },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["findLinks.js"]
+    }
+  ],
 
   "commands": {
     "_execute_browser_action": {
