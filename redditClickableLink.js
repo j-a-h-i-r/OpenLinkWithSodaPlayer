@@ -17,7 +17,21 @@ var makeAcestreamLinksClickable = function() {
         codeSegment = codeSegments[i];
         codeSegmentText = codeSegment.innerHTML;
         textWithClickableLink = codeSegmentText.replace(acestreamRegex, "<a href='$1'>$1</a>");
-        codeSegment.innerHTML = textWithClickableLink;
+
+        logError(textWithClickableLink);
+
+        let codeSegmentParent = codeSegment.parentElement;
+
+        let codeElement = document.createElement("code");
+        let segmentClassName = codeSegment.className;
+        codeElement.className = segmentClassName;
+        
+        // contextualFragment created DOM nodes directly from string
+        // It needs to be used because Mozilla doesn't like innerHTML assignment
+        let codeFragment = document.createRange().createContextualFragment(textWithClickableLink);
+        
+        codeElement.appendChild(codeFragment);
+        codeSegmentParent.replaceChild(codeElement, codeSegment);
     }
 }
 
