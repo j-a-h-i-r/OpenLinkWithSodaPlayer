@@ -6,32 +6,32 @@ var functionCalled = false;
 
 var makeAcestreamLinksClickable = function() {
     // acestream links are usually located inside CODE or BLOCKQUOTE tags
-    let codeSegments = document.querySelectorAll("code, blockquote");
+    let linkSegments = document.querySelectorAll("code, blockquote");
 
-    let len = codeSegments.length;
-    let codeSegment, codeSegmentText;
+    let len = linkSegments.length;
+    let linkSegment, linkSegmentText;
     let acestreamRegex = /(acestream:\/\/\w+)/g;
     let textWithClickableLink;
 
     for (let i=0; i<len; i++) {
-        codeSegment = codeSegments[i];
-        codeSegmentText = codeSegment.innerHTML;
-        textWithClickableLink = codeSegmentText.replace(acestreamRegex, "<a href='$1'>$1</a>");
+        linkSegment = linkSegments[i];
+        linkSegmentText = linkSegment.innerHTML;
+        textWithClickableLink = linkSegmentText.replace(acestreamRegex, "<a href='$1'>$1</a>");
 
         logError(textWithClickableLink);
 
-        let codeSegmentParent = codeSegment.parentElement;
+        let linkSegmentParent = linkSegment.parentElement;
 
-        let codeElement = document.createElement("code");
-        let segmentClassName = codeSegment.className;
-        codeElement.className = segmentClassName;
+        let updatedLinkSegment = document.createElement(linkSegment.tagName);
+        let segmentClassName = linkSegment.className;
+        updatedLinkSegment.className = segmentClassName;
         
         // contextualFragment created DOM nodes directly from string
         // It needs to be used because Mozilla doesn't like innerHTML assignment
-        let codeFragment = document.createRange().createContextualFragment(textWithClickableLink);
+        let segmentFragment = document.createRange().createContextualFragment(textWithClickableLink);
         
-        codeElement.appendChild(codeFragment);
-        codeSegmentParent.replaceChild(codeElement, codeSegment);
+        updatedLinkSegment.appendChild(segmentFragment);
+        linkSegmentParent.replaceChild(updatedLinkSegment, linkSegment);
     }
 }
 
